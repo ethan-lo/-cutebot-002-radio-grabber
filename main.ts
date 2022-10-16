@@ -55,6 +55,7 @@ radio.onReceivedValue(function (name, value) {
         yValue = value
     }
 })
+let angle_next = 0
 let yValue = 0
 let xValue = 0
 let v = 0
@@ -63,10 +64,13 @@ radio.setGroup(7)
 cuteBot.setServo(cuteBot.ServoList.S1, 0)
 cuteBot.colorLight(cuteBot.RGBLights.RGB_R, 0xffff00)
 cuteBot.colorLight(cuteBot.RGBLights.RGB_L, 0xffff00)
+let angle_current = 0
 basic.forever(function () {
     cuteBot.motors(yValue + xValue, yValue - xValue)
     if (v == 5) {
-        cuteBot.setServo(cuteBot.ServoList.S1, 65)
+        angle_next = angle_current + 10
+        cuteBot.setServo(cuteBot.ServoList.S1, angle_next)
+        angle_current = angle_next
         cuteBot.colorLight(cuteBot.RGBLights.RGB_R, 0x0000ff)
         cuteBot.colorLight(cuteBot.RGBLights.RGB_L, 0x0000ff)
         v = 0
@@ -74,11 +78,10 @@ basic.forever(function () {
         cuteBot.setServo(cuteBot.ServoList.S1, 0)
         cuteBot.colorLight(cuteBot.RGBLights.RGB_R, 0xffff00)
         cuteBot.colorLight(cuteBot.RGBLights.RGB_L, 0xffff00)
+        angle_current = 0
         v = 0
     } else if (v == 7) {
-        cuteBot.setServo(cuteBot.ServoList.S1, 45)
-        cuteBot.colorLight(cuteBot.RGBLights.RGB_R, 0xffffff)
-        cuteBot.colorLight(cuteBot.RGBLights.RGB_L, 0xffffff)
+        music.playSoundEffect(music.builtinSoundEffect(soundExpression.giggle), SoundExpressionPlayMode.UntilDone)
         v = 0
     }
 })
